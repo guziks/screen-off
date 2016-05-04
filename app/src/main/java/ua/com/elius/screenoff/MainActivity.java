@@ -5,10 +5,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
-import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,10 +44,21 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
 //            }
 //        }
 
+        hideUI();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.System.canWrite(this)) {
             requestPermissionWriteSettings();
         }
 
+    }
+
+    private void hideUI() {
+        View decorView = getWindow().getDecorView();
+        int uiOptions = 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+            decorView.setSystemUiVisibility(uiOptions);
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.M)
