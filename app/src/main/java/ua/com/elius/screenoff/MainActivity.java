@@ -4,12 +4,15 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.graphics.ColorUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +21,7 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
     private static final String TAG = "MainActivity";
 
     private static final int RC_PERMISSION_WRITE_SETTINGS = 1;
+    private static final int MINIMAL_TIMEOUT = 0;
 
     private TextView mTimeoutTextView;
     private int mTimeout;
@@ -83,7 +87,13 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
         checkPermissions();
         if (mCanWrite) {
             minimizeTimeout();
+//            minimizeBrightness();
+            blackScreen();
         }
+    }
+
+    private void blackScreen() {
+        getWindow().getDecorView().setBackgroundColor(Color.BLACK);
     }
 
     @Override
@@ -114,9 +124,17 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
         saveTimeout();
         mAlteredTimeout = true;
         Settings.System.putInt(this.getContentResolver(),
-                Settings.System.SCREEN_OFF_TIMEOUT, 0);
+                Settings.System.SCREEN_OFF_TIMEOUT, MINIMAL_TIMEOUT);
 
         Log.i(TAG, "Timeout minimized");
+    }
+
+    private void minimizeBrightness() {
+        WindowManager.LayoutParams params = getWindow().getAttributes();
+        params.flags |= WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+        params.screenBrightness = 0;
+        getWindow().setAttributes(params);
+        Log.i(TAG, "Brightness minimized");
     }
 
     public void restoreTimeout() {
