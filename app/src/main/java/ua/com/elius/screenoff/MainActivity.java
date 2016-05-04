@@ -1,5 +1,7 @@
 package ua.com.elius.screenoff;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
@@ -22,6 +24,7 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
 
     private static final int RC_PERMISSION_WRITE_SETTINGS = 1;
     private static final int MINIMAL_TIMEOUT = 0;
+    private static final long BLACK_SCREEN_ANIMATION_DURATION = 1000;
 
     private TextView mTimeoutTextView;
     private int mTimeout;
@@ -91,13 +94,31 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
         checkPermissions();
         if (mCanWrite) {
             minimizeTimeout();
-//            minimizeBrightness();
             blackScreen();
         }
     }
 
     private void blackScreen() {
-        getWindow().getDecorView().setBackgroundColor(Color.BLACK);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+            int colorFrom = Color.TRANSPARENT;
+            int colorTo = Color.BLACK;
+            ValueAnimator colorAnimation;
+            colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+            colorAnimation.setDuration(BLACK_SCREEN_ANIMATION_DURATION);
+            colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+                @Override
+                @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+                public void onAnimationUpdate(ValueAnimator animator) {
+                    Log.d("animationn", "update");
+                    getWindow().getDecorView().setBackgroundColor((int) animator.getAnimatedValue());
+                }
+
+            });
+            colorAnimation.start();
+        } else {
+            getWindow().getDecorView().setBackgroundColor(Color.BLACK);
+        }
     }
 
     @Override
