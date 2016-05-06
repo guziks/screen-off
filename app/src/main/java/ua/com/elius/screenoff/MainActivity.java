@@ -10,20 +10,17 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity implements ActivityCompat.OnRequestPermissionsResultCallback {
+public class MainActivity extends Activity {
 
     private static final String TAG = "MainActivity";
 
     private static final int MINIMAL_TIMEOUT = 0;
     private static final long BLACK_SCREEN_ANIMATION_DURATION = 1000;
 
-    private TextView mTimeoutTextView;
     private int mTimeout;
     private boolean mAlteredTimeout;
     private boolean mCanWrite = true;
