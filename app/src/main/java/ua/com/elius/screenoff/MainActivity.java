@@ -22,8 +22,8 @@ public class MainActivity extends Activity {
     private static final long BLACK_SCREEN_ANIMATION_DURATION = 1000;
 
     private int mTimeout;
-    private boolean mAlteredTimeout;
-    private boolean mCanWrite = true;
+    private boolean mIsTimeoutAltered;
+    private boolean mCanWriteSettings = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +66,7 @@ public class MainActivity extends Activity {
         super.onResume();
 
         checkPermissions();
-        if (mCanWrite) {
+        if (mCanWriteSettings) {
             minimizeTimeout();
             blackScreen();
         }
@@ -97,7 +97,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (mAlteredTimeout) {
+        if (mIsTimeoutAltered) {
             restoreTimeout();
         }
         finish();
@@ -105,9 +105,9 @@ public class MainActivity extends Activity {
 
     private void checkPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.System.canWrite(this)) {
-            mCanWrite = false;
+            mCanWriteSettings = false;
         } else {
-            mCanWrite = true;
+            mCanWriteSettings = true;
         }
     }
 
@@ -120,7 +120,7 @@ public class MainActivity extends Activity {
 
     public void minimizeTimeout() {
         saveTimeout();
-        mAlteredTimeout = true;
+        mIsTimeoutAltered = true;
         Settings.System.putInt(this.getContentResolver(),
                 Settings.System.SCREEN_OFF_TIMEOUT, MINIMAL_TIMEOUT);
 
@@ -128,7 +128,7 @@ public class MainActivity extends Activity {
     }
 
     public void restoreTimeout() {
-        mAlteredTimeout = false;
+        mIsTimeoutAltered = false;
         Settings.System.putInt(this.getContentResolver(),
                 Settings.System.SCREEN_OFF_TIMEOUT, mTimeout);
 
