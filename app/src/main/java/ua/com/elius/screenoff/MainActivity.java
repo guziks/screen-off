@@ -19,7 +19,7 @@ public class MainActivity extends Activity {
     private static final String TAG = "MainActivity";
 
     private static final int MINIMAL_TIMEOUT = 0;
-    private static final long BLACK_SCREEN_ANIMATION_DURATION = 1000;
+    private static final long BLACK_SCREEN_ANIMATION_DURATION = 800;
 
     private int mTimeout;
     private boolean mIsTimeoutAltered;
