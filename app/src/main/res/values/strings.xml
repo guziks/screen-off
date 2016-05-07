@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Screen Off</string>
     <string name="next">Next</string>
-    <string name="permissions_message">Please allow this app to modify system settings</string>
     <string name="cancel">Cancel</string>
+    <string name="permission_message">For this app to function it is required to manipulate screen timeout. Please proceed to next page and turn switch on. This does not grand access to any sensitive data.</string>
     <string name="permission">Permission</string>
 </resources>
