@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Screen Off</string>
+    <string name="next">Next</string>
+    <string name="permissions_message">Please allow this app to modify system settings</string>
+    <string name="cancel">Cancel</string>
+    <string name="permission">Permission</string>
 </resources>

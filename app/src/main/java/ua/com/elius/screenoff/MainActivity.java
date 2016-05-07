@@ -30,11 +30,13 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        hideUI();
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.System.canWrite(this)) {
-            requestPermissionWriteSettings();
+            PermissionDialogFragment dialogFragment = new PermissionDialogFragment();
+            dialogFragment.show(getFragmentManager(), "permission");
+            return;
         }
+
+        hideUI();
     }
 
     private void hideUI() {
