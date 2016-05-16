@@ -141,4 +141,9 @@ public class MainActivity extends Activity {
 
         Log.i(TAG, "Timeout restored: " + mTimeout);
     }
+
+    @Override
+    public void onBackPressed() {
+        Log.i(TAG, "Back button intercepted");
+    }
 }
